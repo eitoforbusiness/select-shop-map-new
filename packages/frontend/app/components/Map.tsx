@@ -8,8 +8,8 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 35.6812,
-  lng: 139.7671
+  lat: 35.6895,
+  lng: 139.7007
 };
 
 interface Shop {
@@ -29,6 +29,7 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ shops, onMarkerClick }) => {
   const [selectedShop, setSelectedShop] = useState<Shop | null>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -36,15 +37,18 @@ const Map: React.FC<MapProps> = ({ shops, onMarkerClick }) => {
   });
 
   const onLoad = useCallback(function callback(map: google.maps.Map) {
-    const bounds = new window.google.maps.LatLngBounds();
-    shops.forEach((shop: Shop) => {
-      bounds.extend({ lat: shop.latitude, lng: shop.longitude });
-    });
-    map.fitBounds(bounds);
+    setMap(map);
+    if (shops.length > 0) {
+      const bounds = new window.google.maps.LatLngBounds();
+      shops.forEach((shop: Shop) => {
+        bounds.extend({ lat: shop.latitude, lng: shop.longitude });
+      });
+      map.fitBounds(bounds);
+    }
   }, [shops]);
 
   const onUnmount = useCallback(function callback() {
-    // 必要に応じてクリーンアップ処理を追加
+    setMap(null);
   }, []);
 
   if (!isLoaded) return <div>Loading...</div>;
@@ -53,7 +57,7 @@ const Map: React.FC<MapProps> = ({ shops, onMarkerClick }) => {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={13}
+      zoom={shops.length === 0 ? 13 : undefined}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
