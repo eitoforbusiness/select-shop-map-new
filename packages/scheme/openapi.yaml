@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: セレクトショップマップのAPI仕様書
 servers:
-  - url: 'http://localhost:8000/api'
+  - url: 'http://localhost/api'
     description: ローカル開発環境
 paths:
   /shops:

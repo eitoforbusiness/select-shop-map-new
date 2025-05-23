@@ -1,6 +1,6 @@
 {
-  "name": "select-shop-map-api",
+  "name": "select-shop-map",
   "version": "1.0.0",
-  "description": "Select Shop Map API Documentation",
-  "baseUrl": "http://localhost:8000/api"
+  "description": "Select Shop Map API",
+  "baseUrl": "http://localhost/api"
 } 
