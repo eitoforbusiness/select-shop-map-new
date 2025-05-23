@@ -47,7 +47,7 @@ const Map: React.FC<MapProps> = ({ shops }) => {
                 <Typography variant="h6">{selectedShop.name}</Typography>
                 <Typography variant="body2">{selectedShop.address}</Typography>
                 <Typography variant="body2">
-                  取扱ブランド: {selectedShop.brands.join(', ')}
+                  取扱ブランド: {selectedShop.brands?.join(', ') || 'なし'}
                 </Typography>
                 <Typography variant="body2">{selectedShop.description}</Typography>
               </Paper>

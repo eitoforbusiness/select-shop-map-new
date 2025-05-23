@@ -64,12 +64,7 @@ paths:
       operationId: get-shop
       tags:
         - Shop
-    parameters:
-      - schema:
-          type: integer
-        name: id
-        in: path
-        required: true
+
 components:
   schemas:
     Shop:

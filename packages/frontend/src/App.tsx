@@ -31,10 +31,10 @@ function App() {
     try {
       const shopData: ShopInput = {
         ...newShop,
-        brands: newShop.brands
+        brands: newShop.brands || []
       };
       
-      await DefaultService.createShop(shopData);
+      await DefaultService.addShops(shopData);
       setOpen(false);
       setNewShop({ name: '', address: '', brands: [], description: '' });
       fetchShops();
@@ -111,7 +111,7 @@ function App() {
                   <input
                     type="text"
                     className="form-control"
-                    value={newShop.brands.join(', ')}
+                    value={newShop.brands?.join(', ') || ''}
                     onChange={(e) => setNewShop({ 
                       ...newShop, 
                       brands: e.target.value.split(',').map(brand => brand.trim()).filter(brand => brand !== '')
