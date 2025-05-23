@@ -28,4 +28,16 @@ export class DefaultService {
             },
         });
     }
+    /**
+     * 店舗一覧の取得
+     * 登録されている全ての店舗情報を取得します
+     * @returns Shop[] 成功
+     * @throws ApiError
+     */
+    public static getShops(): CancelablePromise<Shop[]> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/shops',
+        });
+    }
 }
