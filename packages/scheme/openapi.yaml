@@ -33,7 +33,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ShopInput'
       responses:
-        '201':
+        '200':
           description: 作成成功
           content:
             application/json:
