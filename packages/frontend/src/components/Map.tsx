@@ -1,16 +1,7 @@
 import React from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import { Box, Typography, Paper } from '@mui/material';
-
-interface Shop {
-  id: number;
-  name: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  brands: string[];
-  description: string;
-}
+import type { Shop } from '../api/generated';
 
 interface MapProps {
   shops: Shop[];
@@ -38,14 +29,16 @@ const Map: React.FC<MapProps> = ({ shops }) => {
           zoom={13}
         >
           {shops.map((shop) => (
-            <Marker
-              key={shop.id}
-              position={{ lat: shop.latitude, lng: shop.longitude }}
-              onClick={() => setSelectedShop(shop)}
-            />
+            shop.latitude !== undefined && shop.longitude !== undefined && (
+              <Marker
+                key={shop.id}
+                position={{ lat: shop.latitude, lng: shop.longitude }}
+                onClick={() => setSelectedShop(shop)}
+              />
+            )
           ))}
 
-          {selectedShop && (
+          {selectedShop && selectedShop.latitude !== undefined && selectedShop.longitude !== undefined && (
             <InfoWindow
               position={{ lat: selectedShop.latitude, lng: selectedShop.longitude }}
               onCloseClick={() => setSelectedShop(null)}

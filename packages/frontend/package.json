@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-api": "openapi --input ./src/api/openapi.yaml --output ./src/api/generated --client axios"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -15,8 +16,12 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@react-google-maps/api": "^2.20.6",
+    "@stoplight/elements": "^9.0.1",
+    "@stoplight/elements-dev-portal": "^3.0.1",
     "@types/google.maps": "^3.58.1",
     "axios": "^1.9.0",
+    "bootstrap": "^5.3.6",
+    "openapi-typescript-codegen": "^0.29.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

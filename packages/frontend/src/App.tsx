@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
 import Map from './components/Map';
-import axios from 'axios';
-
-interface Shop {
-  id: number;
-  name: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  brands: string[];
-  description: string;
-}
+import 'bootstrap/dist/css/bootstrap.min.css';
+import type { Shop, ShopInput } from './api/generated';
+import { DefaultService } from './api/generated';
 
 function App() {
   const [shops, setShops] = useState<Shop[]>([]);
   const [open, setOpen] = useState(false);
-  const [newShop, setNewShop] = useState({
+  const [newShop, setNewShop] = useState<ShopInput>({
     name: '',
     address: '',
-    brands: '',
+    brands: [],
     description: ''
   });
 
@@ -29,8 +20,8 @@ function App() {
 
   const fetchShops = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/shops');
-      setShops(response.data);
+      const response = await DefaultService.getShops();
+      setShops(response as Shop[]);
     } catch (error) {
       console.error('Error fetching shops:', error);
     }
@@ -38,14 +29,14 @@ function App() {
 
   const handleSubmit = async () => {
     try {
-      const shopData = {
+      const shopData: ShopInput = {
         ...newShop,
-        brands: newShop.brands.split(',').map((brand: string) => brand.trim())
+        brands: newShop.brands
       };
       
-      await axios.post('http://localhost:8000/api/shops', shopData);
+      await DefaultService.createShop(shopData);
       setOpen(false);
-      setNewShop({ name: '', address: '', brands: '', description: '' });
+      setNewShop({ name: '', address: '', brands: [], description: '' });
       fetchShops();
     } catch (error) {
       console.error('Error creating shop:', error);
@@ -53,67 +44,111 @@ function App() {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          セレクトショップマップ
-        </Typography>
-        
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setOpen(true)}
-          sx={{ mb: 2 }}
-        >
-          新しい店舗を追加
-        </Button>
+    <div className="min-vh-100 bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div className="container">
+          <span className="navbar-brand">セレクトショップマップ</span>
+        </div>
+      </nav>
 
-        <Map shops={shops} />
+      <div className="container py-4">
+        <div className="row mb-4">
+          <div className="col">
+            <button
+              className="btn btn-primary"
+              onClick={() => setOpen(true)}
+            >
+              <i className="bi bi-plus-circle me-2"></i>
+              新しい店舗を追加
+            </button>
+          </div>
+        </div>
 
-        <Dialog open={open} onClose={() => setOpen(false)}>
-          <DialogTitle>新しい店舗を追加</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="店舗名"
-              fullWidth
-              value={newShop.name}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewShop({ ...newShop, name: e.target.value })}
-            />
-            <TextField
-              margin="dense"
-              label="住所"
-              fullWidth
-              value={newShop.address}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewShop({ ...newShop, address: e.target.value })}
-            />
-            <TextField
-              margin="dense"
-              label="取扱ブランド（カンマ区切り）"
-              fullWidth
-              value={newShop.brands}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewShop({ ...newShop, brands: e.target.value })}
-            />
-            <TextField
-              margin="dense"
-              label="説明"
-              fullWidth
-              multiline
-              rows={4}
-              value={newShop.description}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewShop({ ...newShop, description: e.target.value })}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpen(false)}>キャンセル</Button>
-            <Button onClick={handleSubmit} variant="contained" color="primary">
-              追加
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    </Container>
+        <div className="row">
+          <div className="col">
+            <div className="card shadow-sm">
+              <div className="card-body p-0">
+                <Map shops={shops} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {open && (
+        <div className="modal show d-block" tabIndex={-1}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">新しい店舗を追加</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setOpen(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <label className="form-label">店舗名</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={newShop.name}
+                    onChange={(e) => setNewShop({ ...newShop, name: e.target.value })}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">住所</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={newShop.address}
+                    onChange={(e) => setNewShop({ ...newShop, address: e.target.value })}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">取扱ブランド（カンマ区切り）</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={newShop.brands.join(', ')}
+                    onChange={(e) => setNewShop({ 
+                      ...newShop, 
+                      brands: e.target.value.split(',').map(brand => brand.trim()).filter(brand => brand !== '')
+                    })}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">説明</label>
+                  <textarea
+                    className="form-control"
+                    rows={4}
+                    value={newShop.description}
+                    onChange={(e) => setNewShop({ ...newShop, description: e.target.value })}
+                  ></textarea>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setOpen(false)}
+                >
+                  キャンセル
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                >
+                  追加
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
