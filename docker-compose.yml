@@ -42,19 +42,6 @@ services:
     networks:
       - app-network
 
-  # Frontend
-  frontend:
-    build:
-      context: ./packages/frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./packages/frontend:/app
-      - /app/node_modules
-    networks:
-      - app-network
-
 networks:
   app-network:
     driver: bridge
