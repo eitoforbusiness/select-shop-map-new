@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/pages"]
+  "include": ["src", "src/pages", "../backend/api"]
 }

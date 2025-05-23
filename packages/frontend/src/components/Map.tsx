@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import { Box, Typography, Paper } from '@mui/material';
-import type { Shop } from '../api/generated';
+import type { Shop } from '../../../backend/api/generated';
 
 interface MapProps {
   shops: Shop[];

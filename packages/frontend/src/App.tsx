@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Map from './components/Map';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import type { Shop, ShopInput } from './api/generated';
-import { DefaultService } from './api/generated';
+import type { Shop, ShopInput } from '../../backend/api/generated';
+import { DefaultService } from '../../backend/api/generated';
 
 function App() {
   const [shops, setShops] = useState<Shop[]>([]);
