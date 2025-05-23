@@ -9,23 +9,13 @@ import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 export class DefaultService {
     /**
-     * 店舗一覧の取得
-     * @returns Shop 成功
-     * @throws ApiError
-     */
-    public static getShops(): CancelablePromise<Array<Shop>> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/shops',
-        });
-    }
-    /**
-     * 新規店舗の追加
+     * 新規店舗の登録
+     * 新しい店舗情報を登録します
      * @param requestBody
      * @returns Shop 作成成功
      * @throws ApiError
      */
-    public static createShop(
+    public static addShops(
         requestBody: ShopInput,
     ): CancelablePromise<Shop> {
         return __request(OpenAPI, {
@@ -33,6 +23,9 @@ export class DefaultService {
             url: '/shops',
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                400: `バリデーションエラー`,
+            },
         });
     }
 }

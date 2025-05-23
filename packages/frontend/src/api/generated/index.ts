@@ -11,3 +11,4 @@ export type { Shop } from './models/Shop';
 export type { ShopInput } from './models/ShopInput';
 
 export { DefaultService } from './services/DefaultService';
+export { ShopService } from './services/ShopService';
