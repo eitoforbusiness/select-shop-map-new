@@ -7,8 +7,12 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AuthResponse } from './models/AuthResponse';
+export type { Error } from './models/Error';
+export type { LoginCredentials } from './models/LoginCredentials';
+export type { RegisterCredentials } from './models/RegisterCredentials';
+export type { Review } from './models/Review';
 export type { Shop } from './models/Shop';
 export type { ShopInput } from './models/ShopInput';
 
-export { DefaultService } from './services/DefaultService';
-export { ShopService } from './services/ShopService';
+export { Service } from './services/Service';

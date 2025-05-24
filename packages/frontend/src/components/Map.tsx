@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import { Box, Paper, Typography, Rating } from '@mui/material';
-import type { Shop } from '../api/generated/models/Shop';
-import type { Review } from '../api/generated/models/Review';
+import type { Shop } from '../../../scheme/generated/models/Shop';
+import type { Review } from '../../../scheme/generated/models/Review';
 import ReviewForm from './ReviewForm';
 import ReviewList from './ReviewList';
 

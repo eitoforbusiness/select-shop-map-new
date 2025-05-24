@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, Rating, Typography } from '@mui/material';
-import type { Review } from '../api/generated/models/Review';
+import type { Review } from '../../../scheme/generated/models/Review';
 
 interface ReviewFormProps {
     shopId: number;

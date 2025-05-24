@@ -3,37 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export type Shop = {
-    /**
-     * 店舗ID
-     */
     id?: number;
-    /**
-     * 店舗名
-     */
-    name?: string;
-    /**
-     * 住所
-     */
-    address?: string;
-    /**
-     * 緯度
-     */
-    latitude?: number;
-    /**
-     * 経度
-     */
-    longitude?: number;
-    /**
-     * 取扱ブランド
-     */
-    brands?: Array<string>;
-    /**
-     * 店舗説明
-     */
+    name: string;
     description?: string;
-    /**
-     * 平均評価
-     */
-    average_rating?: number;
+    address: string;
+    latitude: number;
+    longitude: number;
+    created_at?: string;
+    updated_at?: string;
 };
 

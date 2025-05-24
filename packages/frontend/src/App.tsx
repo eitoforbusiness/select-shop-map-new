@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Map from './components/Map';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import type { Shop, ShopInput } from '../../scheme/generated';
+import type { Shop } from '../../scheme/generated/models/Shop';
+import type { ShopInput } from '../../scheme/generated/models/ShopInput';
 import { getShops } from './api/getShops';
 import { addShops } from './api/addShops';
+import { isAuthenticated, logout } from './api/auth';
 
 /**
  * セレクトショップマップのメインアプリケーションコンポーネント
@@ -15,9 +19,14 @@ function App() {
   const [filteredShops, setFilteredShops] = useState<Shop[]>([]); // 検索条件に合致する店舗を保持
   const [searchBrand, setSearchBrand] = useState(''); // ブランド検索用の入力値
   const [open, setOpen] = useState(false); // 新規店舗追加モーダルの表示状態
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [newShop, setNewShop] = useState<ShopInput>({ // 新規店舗追加用のフォームデータ
     name: '',
     address: '',
+    latitude: 35.6812, // デフォルトの緯度（東京）
+    longitude: 139.7671, // デフォルトの経度（東京）
     brands: [],
     description: ''
   });
@@ -25,6 +34,8 @@ function App() {
   // 初期表示時に店舗データを取得
   useEffect(() => {
     fetchShops();
+    // 初期表示時にログイン状態を確認
+    setIsLoggedIn(isAuthenticated());
   }, []);
 
   // ブランド検索条件が変更されたときに店舗リストをフィルタリング
@@ -71,11 +82,31 @@ function App() {
       
       await addShops(shopData);
       setOpen(false);
-      setNewShop({ name: '', address: '', brands: [], description: '' });
+      setNewShop({ 
+        name: '', 
+        address: '', 
+        latitude: 35.6812,
+        longitude: 139.7671,
+        brands: [], 
+        description: '' 
+      });
       fetchShops();
     } catch (error) {
       console.error('Error creating shop:', error);
     }
+  };
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleRegisterSuccess = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsLoggedIn(false);
   };
 
   return (
@@ -84,6 +115,31 @@ function App() {
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <div className="container">
           <span className="navbar-brand">セレクトショップマップ</span>
+          <div className="ms-auto">
+            {isLoggedIn ? (
+              <button
+                className="btn btn-outline-light"
+                onClick={handleLogout}
+              >
+                ログアウト
+              </button>
+            ) : (
+              <div className="d-flex gap-2">
+                <button
+                  className="btn btn-outline-light"
+                  onClick={() => setShowLogin(true)}
+                >
+                  ログイン
+                </button>
+                <button
+                  className="btn btn-outline-light"
+                  onClick={() => setShowRegister(true)}
+                >
+                  アカウント作成
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -130,6 +186,34 @@ function App() {
           </div>
         </div>
       </div>
+
+      {/* ログインモーダル */}
+      {showLogin && (
+        <div className="modal show d-block" tabIndex={-1}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <LoginForm
+                onLoginSuccess={handleLoginSuccess}
+                onClose={() => setShowLogin(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* アカウント作成モーダル */}
+      {showRegister && (
+        <div className="modal show d-block" tabIndex={-1}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <RegisterForm
+                onRegisterSuccess={handleRegisterSuccess}
+                onClose={() => setShowRegister(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 新規店舗追加モーダル */}
       {open && (

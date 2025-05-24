@@ -1,5 +1,5 @@
-import { ShopService } from '../../../scheme/generated';
-import type { Shop } from '../../../scheme/generated';
+import { Service } from '../../../scheme/generated';
+import type { Shop } from '../../../scheme/generated/models/Shop';
 
 /**
  * 店舗一覧を取得するAPI呼び出し関数
@@ -7,7 +7,7 @@ import type { Shop } from '../../../scheme/generated';
  */
 export const getShops = async (): Promise<Shop[]> => {
     try {
-        const response = await ShopService.getShops();
+        const response = await Service.getShops();
         return response as Shop[];
     } catch (error) {
         console.error('Error fetching shops:', error);

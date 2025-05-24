@@ -2,27 +2,27 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Shop = {
+export type Review = {
     /**
-     * 店舗ID
+     * レビューID
      */
     id?: number;
     /**
-     * 店舗名
+     * 店舗ID
      */
-    name?: string;
+    shop_id?: number;
     /**
-     * 住所
+     * ユーザー名
      */
-    address?: string;
+    user_name?: string;
     /**
-     * 緯度
+     * 評価（1-5）
      */
-    latitude?: number;
+    rating?: number;
     /**
-     * 経度
+     * コメント
      */
-    longitude?: number;
+    comment?: string;
     /**
      * 取扱ブランド一覧
      */
@@ -31,10 +31,6 @@ export type Shop = {
      * 店舗説明
      */
     description?: string;
-    /**
-     * 平均評価
-     */
-    average_rating?: number;
     /**
      * 作成日時
      */

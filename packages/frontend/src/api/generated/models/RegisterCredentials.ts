@@ -2,11 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ShopInput = {
+export type RegisterCredentials = {
     name: string;
-    description?: string;
-    address: string;
-    latitude: number;
-    longitude: number;
+    email: string;
+    password: string;
+    password_confirmation: string;
 };
 

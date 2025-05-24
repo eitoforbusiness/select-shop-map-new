@@ -12,7 +12,15 @@ export type ShopInput = {
      */
     address: string;
     /**
-     * 取扱ブランド
+     * 緯度
+     */
+    latitude: number;
+    /**
+     * 経度
+     */
+    longitude: number;
+    /**
+     * 取扱ブランド一覧
      */
     brands?: Array<string>;
     /**

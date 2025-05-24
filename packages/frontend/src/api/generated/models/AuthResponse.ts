@@ -2,11 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ShopInput = {
-    name: string;
-    description?: string;
-    address: string;
-    latitude: number;
-    longitude: number;
+export type AuthResponse = {
+    token: string;
+    user: {
+        id: number;
+        name: string;
+        email: string;
+    };
 };
 
