@@ -106,27 +106,6 @@ function App() {
                     onChange={(e) => setNewShop({ ...newShop, address: e.target.value })}
                   />
                 </div>
-                <div className="mb-3">
-                  <label className="form-label">取扱ブランド（カンマ区切り）</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={newShop.brands?.join(', ') || ''}
-                    onChange={(e) => setNewShop({ 
-                      ...newShop, 
-                      brands: e.target.value.split(',').map(brand => brand.trim()).filter(brand => brand !== '')
-                    })}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">説明</label>
-                  <textarea
-                    className="form-control"
-                    rows={4}
-                    value={newShop.description}
-                    onChange={(e) => setNewShop({ ...newShop, description: e.target.value })}
-                  ></textarea>
-                </div>
               </div>
               <div className="modal-footer">
                 <button

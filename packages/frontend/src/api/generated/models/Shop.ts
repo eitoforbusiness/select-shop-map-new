@@ -31,5 +31,9 @@ export type Shop = {
      * 店舗説明
      */
     description?: string;
+    /**
+     * 平均評価
+     */
+    average_rating?: number;
 };
 

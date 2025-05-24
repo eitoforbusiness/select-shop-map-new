@@ -10,7 +10,23 @@ class ShopController extends Controller
 {
     public function index()
     {
-        return Shop::all();
+        try {
+            $shops = Shop::with('reviews')->get();
+            return $shops->map(function ($shop) {
+                return [
+                    'id' => $shop->id,
+                    'name' => $shop->name,
+                    'address' => $shop->address,
+                    'latitude' => $shop->latitude,
+                    'longitude' => $shop->longitude,
+                    'average_rating' => $shop->average_rating,
+                    'brands' => $shop->brands,
+                    'reviews' => $shop->reviews
+                ];
+            });
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function store(Request $request)
@@ -18,8 +34,6 @@ class ShopController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'brands' => 'nullable|array',
-            'description' => 'nullable|string',
         ]);
 
         // Google Geocoding APIを使用して住所から緯度経度を取得
@@ -50,6 +64,8 @@ class ShopController extends Controller
             $validated['longitude'] = $location['lng'];
 
             $shop = Shop::create($validated);
+            $shop->average_rating = $shop->average_rating;
+            $shop->brands = $shop->brands;
             return response()->json($shop, 201);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Geocoding service error: ' . $e->getMessage()], 500);
@@ -58,6 +74,8 @@ class ShopController extends Controller
 
     public function show(Shop $shop)
     {
+        $shop->average_rating = $shop->average_rating;
+        $shop->brands = $shop->brands;
         return $shop;
     }
 
