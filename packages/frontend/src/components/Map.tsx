@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { Box, Paper, Typography, Rating, IconButton } from '@mui/material';
+import { Box, Paper, Typography, Rating, IconButton, Alert, Snackbar } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { Shop } from '../../../scheme/generated/models/Shop';
 import type { Review } from '../../../scheme/generated/models/Review';
 import ReviewForm from './ReviewForm';
 import ReviewList from './ReviewList';
-import { addFavoriteShop, removeFavoriteShop } from '../api/favoriteShops';
+import { addFavoriteShop, removeFavoriteShop, getFavoriteShops } from '../api/favoriteShops';
 import { isAuthenticated } from '../api/auth';
 
 interface MapProps {
@@ -29,7 +29,24 @@ const Map: React.FC<MapProps> = ({ shops }) => {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [mapError, setMapError] = useState<string | null>(null);
     const [favoriteShops, setFavoriteShops] = useState<number[]>([]);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
+
+    // お気に入り店舗の初期状態を取得
+    useEffect(() => {
+        const fetchFavoriteShops = async () => {
+            if (isAuthenticated()) {
+                try {
+                    const favoriteShopsData = await getFavoriteShops();
+                    setFavoriteShops(favoriteShopsData.map(shop => shop.id!));
+                } catch (error) {
+                    console.error('お気に入り店舗の取得エラー:', error);
+                }
+            }
+        };
+
+        fetchFavoriteShops();
+    }, []);
 
     useEffect(() => {
         if (selectedShop) {
@@ -69,7 +86,10 @@ const Map: React.FC<MapProps> = ({ shops }) => {
     };
 
     const handleFavoriteClick = async (shopId: number) => {
-        if (!isAuthenticated()) return;
+        if (!isAuthenticated()) {
+            setErrorMessage('お気に入り機能を使用するにはログインが必要です');
+            return;
+        }
 
         try {
             if (favoriteShops.includes(shopId)) {
@@ -79,9 +99,14 @@ const Map: React.FC<MapProps> = ({ shops }) => {
                 await addFavoriteShop(shopId);
                 setFavoriteShops([...favoriteShops, shopId]);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('お気に入り操作エラー:', error);
+            setErrorMessage(error.message || 'お気に入り操作に失敗しました');
         }
+    };
+
+    const handleCloseError = () => {
+        setErrorMessage(null);
     };
 
     return (
@@ -91,6 +116,17 @@ const Map: React.FC<MapProps> = ({ shops }) => {
                     {mapError}
                 </Box>
             )}
+
+            <Snackbar
+                open={!!errorMessage}
+                autoHideDuration={6000}
+                onClose={handleCloseError}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
+                    {errorMessage}
+                </Alert>
+            </Snackbar>
 
             {apiKey && (
                 <LoadScript
@@ -124,7 +160,12 @@ const Map: React.FC<MapProps> = ({ shops }) => {
                                         {isAuthenticated() && (
                                             <IconButton
                                                 onClick={() => handleFavoriteClick(selectedShop.id!)}
-                                                color="primary"
+                                                color={favoriteShops.includes(selectedShop.id!) ? "error" : "default"}
+                                                sx={{
+                                                    '&:hover': {
+                                                        color: favoriteShops.includes(selectedShop.id!) ? 'error.dark' : 'primary.main'
+                                                    }
+                                                }}
                                             >
                                                 {favoriteShops.includes(selectedShop.id!) ? (
                                                     <FavoriteIcon />
