@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { Box, Paper, Typography, Rating, IconButton, Alert, Snackbar } from '@mui/material';
+import { Box, Paper, Typography, Rating, IconButton, Alert, Snackbar, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import SearchIcon from '@mui/icons-material/Search';
 import type { Shop } from '../../../scheme/generated/models/Shop';
 import type { Review } from '../../../scheme/generated/models/Review';
 import ReviewForm from './ReviewForm';
@@ -30,7 +31,13 @@ const Map: React.FC<MapProps> = ({ shops }) => {
     const [mapError, setMapError] = useState<string | null>(null);
     const [favoriteShops, setFavoriteShops] = useState<number[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
+
+    // 検索クエリに基づいて店舗をフィルタリング
+    const filteredShops = shops.filter(shop =>
+        shop.name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false
+    );
 
     // お気に入り店舗の初期状態を取得
     useEffect(() => {
@@ -111,6 +118,32 @@ const Map: React.FC<MapProps> = ({ shops }) => {
 
     return (
         <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+            <Box sx={{ position: 'absolute', top: 10, left: 10, zIndex: 1, width: '250px' }}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    placeholder="店舗名で検索"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    InputProps={{
+                        startAdornment: <SearchIcon sx={{ mr: 1, color: 'text.secondary' }} />,
+                    }}
+                    sx={{
+                        backgroundColor: 'white',
+                        borderRadius: 1,
+                        '& .MuiOutlinedInput-root': {
+                            height: '40px',
+                            '& fieldset': {
+                                borderColor: 'rgba(0, 0, 0, 0.23)',
+                            },
+                            '&:hover fieldset': {
+                                borderColor: 'primary.main',
+                            },
+                        },
+                    }}
+                />
+            </Box>
+
             {mapError && (
                 <Box sx={{ color: 'error.main', p: 2 }}>
                     {mapError}
@@ -139,7 +172,7 @@ const Map: React.FC<MapProps> = ({ shops }) => {
                         zoom={13}
                         onLoad={() => setMapError(null)}
                     >
-                        {shops.map((shop) => (
+                        {filteredShops.map((shop) => (
                             shop.latitude !== undefined && shop.longitude !== undefined && (
                                 <Marker
                                     key={shop.id}
