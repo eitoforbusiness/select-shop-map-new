@@ -8,6 +8,7 @@ import type { ShopInput } from '../../scheme/generated/models/ShopInput';
 import { getShops } from './api/getShops';
 import { addShops } from './api/addShops';
 import { isAuthenticated, logout } from './api/auth';
+import { getFavoriteShops } from './api/favoriteShops';
 
 /**
  * セレクトショップマップのメインアプリケーションコンポーネント
@@ -22,6 +23,7 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false); // お気に入り店舗表示フラグ
   const [newShop, setNewShop] = useState<ShopInput>({ // 新規店舗追加用のフォームデータ
     name: '',
     address: '',
@@ -70,6 +72,18 @@ function App() {
   };
 
   /**
+   * お気に入り店舗を取得する関数
+   */
+  const fetchFavoriteShops = async () => {
+    try {
+      const response = await getFavoriteShops();
+      setFilteredShops(response);
+    } catch (error) {
+      console.error('Error fetching favorite shops:', error);
+    }
+  };
+
+  /**
    * 新規店舗を追加する関数
    * APIを呼び出して店舗を追加し、成功時に店舗リストを更新
    */
@@ -107,6 +121,17 @@ function App() {
   const handleLogout = () => {
     logout();
     setIsLoggedIn(false);
+    setShowFavorites(false);
+    fetchShops();
+  };
+
+  const handleToggleFavorites = async () => {
+    if (!showFavorites) {
+      await fetchFavoriteShops();
+    } else {
+      fetchShops();
+    }
+    setShowFavorites(!showFavorites);
   };
 
   return (
@@ -117,12 +142,20 @@ function App() {
           <span className="navbar-brand">セレクトショップマップ</span>
           <div className="ms-auto">
             {isLoggedIn ? (
-              <button
-                className="btn btn-outline-light"
-                onClick={handleLogout}
-              >
-                ログアウト
-              </button>
+              <div className="d-flex gap-2">
+                <button
+                  className={`btn ${showFavorites ? 'btn-light' : 'btn-outline-light'}`}
+                  onClick={handleToggleFavorites}
+                >
+                  {showFavorites ? '全店舗表示' : 'お気に入り店舗'}
+                </button>
+                <button
+                  className="btn btn-outline-light"
+                  onClick={handleLogout}
+                >
+                  ログアウト
+                </button>
+              </div>
             ) : (
               <div className="d-flex gap-2">
                 <button

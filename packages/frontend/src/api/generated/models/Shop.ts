@@ -4,12 +4,12 @@
 /* eslint-disable */
 export type Shop = {
     id?: number;
-    name: string;
+    name?: string;
+    address?: string;
+    latitude?: number;
+    longitude?: number;
+    average_rating?: number;
+    brands?: Array<string>;
     description?: string;
-    address: string;
-    latitude: number;
-    longitude: number;
-    created_at?: string;
-    updated_at?: string;
 };
 

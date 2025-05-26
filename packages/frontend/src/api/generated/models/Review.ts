@@ -2,12 +2,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ShopInput = {
-    name: string;
-    address: string;
-    latitude?: number;
-    longitude?: number;
+export type Review = {
+    id?: number;
+    shop_id?: number;
+    user_name?: string;
+    rating?: number;
+    comment?: string;
     brands?: Array<string>;
     description?: string;
+    created_at?: string;
+    updated_at?: string;
 };
 

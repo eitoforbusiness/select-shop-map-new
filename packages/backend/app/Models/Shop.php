@@ -26,6 +26,11 @@ class Shop extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function favoriteShops(): HasMany
+    {
+        return $this->hasMany(FavoriteShop::class);
+    }
+
     public function getAverageRatingAttribute(): float
     {
         return round($this->reviews()->avg('rating') ?? 0, 1);

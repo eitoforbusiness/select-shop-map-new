@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { Box, Paper, Typography, Rating } from '@mui/material';
+import { Box, Paper, Typography, Rating, IconButton } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import type { Shop } from '../../../scheme/generated/models/Shop';
 import type { Review } from '../../../scheme/generated/models/Review';
 import ReviewForm from './ReviewForm';
 import ReviewList from './ReviewList';
+import { addFavoriteShop, removeFavoriteShop } from '../api/favoriteShops';
+import { isAuthenticated } from '../api/auth';
 
 interface MapProps {
     shops: Shop[];
@@ -24,6 +28,7 @@ const Map: React.FC<MapProps> = ({ shops }) => {
     const [selectedShop, setSelectedShop] = useState<Shop | null>(null);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [mapError, setMapError] = useState<string | null>(null);
+    const [favoriteShops, setFavoriteShops] = useState<number[]>([]);
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
 
     useEffect(() => {
@@ -63,6 +68,22 @@ const Map: React.FC<MapProps> = ({ shops }) => {
         }
     };
 
+    const handleFavoriteClick = async (shopId: number) => {
+        if (!isAuthenticated()) return;
+
+        try {
+            if (favoriteShops.includes(shopId)) {
+                await removeFavoriteShop(shopId);
+                setFavoriteShops(favoriteShops.filter(id => id !== shopId));
+            } else {
+                await addFavoriteShop(shopId);
+                setFavoriteShops([...favoriteShops, shopId]);
+            }
+        } catch (error) {
+            console.error('お気に入り操作エラー:', error);
+        }
+    };
+
     return (
         <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
             {mapError && (
@@ -98,7 +119,21 @@ const Map: React.FC<MapProps> = ({ shops }) => {
                                 onCloseClick={() => setSelectedShop(null)}
                             >
                                 <Paper sx={{ p: 2, maxWidth: 300 }}>
-                                    <Typography variant="h6">{selectedShop.name}</Typography>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                                        <Typography variant="h6">{selectedShop.name}</Typography>
+                                        {isAuthenticated() && (
+                                            <IconButton
+                                                onClick={() => handleFavoriteClick(selectedShop.id!)}
+                                                color="primary"
+                                            >
+                                                {favoriteShops.includes(selectedShop.id!) ? (
+                                                    <FavoriteIcon />
+                                                ) : (
+                                                    <FavoriteBorderIcon />
+                                                )}
+                                            </IconButton>
+                                        )}
+                                    </Box>
                                     <Typography variant="body2">{selectedShop.address}</Typography>
                                     <Typography variant="body2">
                                         取扱ブランド: {selectedShop.brands?.join(', ') || 'なし'}
