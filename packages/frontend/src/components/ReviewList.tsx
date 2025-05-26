@@ -36,9 +36,11 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
                                 {review.comment}
                             </Typography>
                         )}
-                        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
-                            {new Date(review.created_at).toLocaleDateString('ja-JP')}
-                        </Typography>
+                        {review.created_at && (
+                            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+                                {new Date(review.created_at).toLocaleDateString('ja-JP')}
+                            </Typography>
+                        )}
                     </Paper>
                     {index < reviews.length - 1 && <Divider />}
                 </React.Fragment>
