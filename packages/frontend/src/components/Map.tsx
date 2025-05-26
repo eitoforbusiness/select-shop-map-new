@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { Box, Paper, Typography, Rating, IconButton, Alert, Snackbar } from '@mui/material';
+import { Box, Paper, Typography, Rating, IconButton, Alert, Snackbar, Button } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import DirectionsIcon from '@mui/icons-material/Directions';
 import type { Shop } from '../../../scheme/generated/models/Shop';
 import type { Review } from '../../../scheme/generated/models/Review';
 import ReviewForm from './ReviewForm';
@@ -189,6 +190,20 @@ const Map: React.FC<MapProps> = ({ shops }) => {
                                             readOnly
                                             precision={0.5}
                                         />
+                                    </Box>
+                                    <Box sx={{ mt: 2 }}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            startIcon={<DirectionsIcon />}
+                                            onClick={() => {
+                                                const url = `https://www.google.com/maps/dir/?api=1&destination=${selectedShop.latitude},${selectedShop.longitude}`;
+                                                window.open(url, '_blank');
+                                            }}
+                                            fullWidth
+                                        >
+                                            経路案内
+                                        </Button>
                                     </Box>
                                     <ReviewForm
                                         shopId={selectedShop.id!}
