@@ -58,13 +58,101 @@ body {
   
   /* ボーダーラディウス */
   --radius-sm: 0.375rem;
+  
+  /* ボタンサイズ統一 */
+  --btn-height-sm: 32px;
+  --btn-height-md: 40px;
+  --btn-height-lg: 48px;
+  --btn-padding-sm: 6px 12px;
+  --btn-padding-md: 8px 16px;
+  --btn-padding-lg: 12px 24px;
+  --btn-font-sm: 0.75rem;
+  --btn-font-md: 0.875rem;
+  --btn-font-lg: 1rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
   --radius-full: 9999px;
-  
-  /* トランジション */
+}
+
+/* ボタンサイズ統一スタイル */
+.btn {
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.btn:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* 小サイズボタン */
+.btn-sm {
+  padding: var(--btn-padding-sm);
+  font-size: var(--btn-font-sm);
+  min-height: var(--btn-height-sm);
+  line-height: 1;
+}
+
+/* 中サイズボタン（デフォルト） */
+.btn {
+  padding: var(--btn-padding-md);
+  font-size: var(--btn-font-md);
+  min-height: var(--btn-height-md);
+  line-height: 1.2;
+}
+
+/* 大サイズボタン */
+.btn-lg {
+  padding: var(--btn-padding-lg);
+  font-size: var(--btn-font-lg);
+  min-height: var(--btn-height-lg);
+  line-height: 1.2;
+}
+
+/* 丸角ボタン */
+.btn.rounded-pill {
+  border-radius: 50px;
+}
+
+/* ボタンカラー統一 */
+.btn-danger {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: var(--color-primary-dark);
+  color: white;
+}
+
+.btn-danger:focus {
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+}
+
+/* ホバーエフェクト */
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+/* トランジション */
+:root {
   --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

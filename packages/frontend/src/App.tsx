@@ -182,28 +182,14 @@ function App() {
               ) : (
                 <div className="d-flex gap-2">
                   <button
-                    className="btn btn-danger rounded-pill px-3 hover-lift"
+                    className="btn btn-danger rounded-pill hover-lift"
                     onClick={() => setShowLogin(true)}
-                    style={{ 
-                      background: '#ef4444',
-                      border: 'none',
-                      fontWeight: '600',
-                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-                      transition: 'all 0.3s ease'
-                    }}
                   >
                     ログイン
                   </button>
                   <button
-                    className="btn btn-danger rounded-pill px-3 hover-lift"
+                    className="btn btn-danger rounded-pill hover-lift"
                     onClick={() => setShowRegister(true)}
-                    style={{ 
-                      background: '#ef4444',
-                      border: 'none',
-                      fontWeight: '600',
-                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-                      transition: 'all 0.3s ease'
-                    }}
                   >
                     アカウント作成
                   </button>

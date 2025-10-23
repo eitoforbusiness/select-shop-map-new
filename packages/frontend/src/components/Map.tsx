@@ -492,7 +492,7 @@ const MapComponent: React.FC<MapProps> = ({ shops }) => {
                                     <Box sx={{ mb: 2 }}>
                                         <Button
                                             variant="contained"
-                                            color="primary"
+                                            size="large"
                                             startIcon={<DirectionsIcon sx={{ fontSize: { xs: 18, sm: 20 } }} />}
                                             onClick={() => {
                                                 const url = `https://www.google.com/maps/dir/?api=1&destination=${selectedShop.latitude},${selectedShop.longitude}`;
@@ -501,10 +501,6 @@ const MapComponent: React.FC<MapProps> = ({ shops }) => {
                                             fullWidth
                                             sx={{
                                                 borderRadius: 2,
-                                                py: { xs: 0.75, sm: 1 },
-                                                px: { xs: 1, sm: 2 },
-                                                fontWeight: 600,
-                                                fontSize: { xs: '0.875rem', sm: '1rem' },
                                                 background: '#ef4444',
                                                 '&:hover': {
                                                     transform: 'translateY(-1px)',

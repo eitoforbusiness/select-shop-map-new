@@ -217,14 +217,27 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 8,
-          padding: '8px 16px',
-          fontSize: '0.875rem',
           fontWeight: 600,
           textTransform: 'none',
           boxShadow: 'none',
           '&:hover': {
             boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
           },
+        },
+        sizeSmall: {
+          padding: '6px 12px',
+          fontSize: '0.75rem',
+          minHeight: '32px',
+        },
+        sizeMedium: {
+          padding: '8px 16px',
+          fontSize: '0.875rem',
+          minHeight: '40px',
+        },
+        sizeLarge: {
+          padding: '12px 24px',
+          fontSize: '1rem',
+          minHeight: '48px',
         },
         contained: {
           '&:hover': {
@@ -320,14 +333,27 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 8,
-          padding: '8px 16px',
-          fontSize: '0.875rem',
           fontWeight: 600,
           textTransform: 'none',
           boxShadow: 'none',
           '&:hover': {
             boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.3)',
           },
+        },
+        sizeSmall: {
+          padding: '6px 12px',
+          fontSize: '0.75rem',
+          minHeight: '32px',
+        },
+        sizeMedium: {
+          padding: '8px 16px',
+          fontSize: '0.875rem',
+          minHeight: '40px',
+        },
+        sizeLarge: {
+          padding: '12px 24px',
+          fontSize: '1rem',
+          minHeight: '48px',
         },
         contained: {
           '&:hover': {

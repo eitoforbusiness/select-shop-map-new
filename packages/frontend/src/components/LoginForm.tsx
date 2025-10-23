@@ -135,16 +135,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onClose }) => {
                 <Button
                     type="submit"
                     variant="contained"
+                    size="large"
                     disabled={isLoading}
-                    className="flex-fill rounded-pill py-2 hover-lift"
+                    className="flex-fill rounded-pill hover-lift"
                     style={{
                         background: isLoading 
                             ? '#9ca3af' 
                             : '#ef4444',
-                        border: 'none',
-                        fontWeight: '600',
-                        fontSize: '1rem',
-                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                        border: 'none'
                     }}
                 >
                     {isLoading ? (
@@ -158,14 +156,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onClose }) => {
                 </Button>
                 <Button
                     variant="contained"
+                    size="large"
                     onClick={onClose}
                     disabled={isLoading}
-                    className="rounded-pill px-4 hover-lift"
+                    className="rounded-pill hover-lift"
                     style={{
                         background: '#ef4444',
-                        border: 'none',
-                        fontWeight: '600',
-                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                        border: 'none'
                     }}
                 >
                     キャンセル
