@@ -54,7 +54,7 @@ class RegisterRequest extends FormRequest
             'password.required' => 'パスワードは必須です',
             'password.confirmed' => 'パスワードが一致しません',
             'password.min' => 'パスワードは8文字以上で入力してください',
-            'password.regex' => 'パスワードは大文字、小文字、数字、特殊文字を含める必要があります',
+            'password.regex' => 'パスワードは大文字、小文字、数字を含める必要があります',
         ];
     }
 } 

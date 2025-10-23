@@ -1,0 +1,243 @@
+/* レスポンシブデザイン用の追加スタイル */
+
+/* モバイルファーストアプローチ */
+@media (max-width: 576px) {
+  /* ナビゲーションバー */
+  .navbar-brand {
+    font-size: 1.1rem !important;
+  }
+  
+  .navbar .btn {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* 検索バー */
+  .input-group .form-control {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+  
+  /* ボタン */
+  .btn-lg {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* モーダル */
+  .modal-dialog {
+    margin: 0.5rem !important;
+  }
+  
+  .modal-content {
+    border-radius: 1rem !important;
+  }
+  
+  /* 地図の検索バー */
+  .map-search {
+    width: calc(100% - 2rem) !important;
+    left: 1rem !important;
+    right: 1rem !important;
+  }
+  
+  /* InfoWindow */
+  .info-window {
+    max-width: calc(100vw - 2rem) !important;
+    width: calc(100vw - 2rem) !important;
+  }
+}
+
+/* タブレット */
+@media (min-width: 577px) and (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.25rem !important;
+  }
+  
+  .btn-lg {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+  
+  .map-search {
+    width: 280px !important;
+  }
+  
+  .info-window {
+    max-width: 320px !important;
+  }
+}
+
+/* デスクトップ */
+@media (min-width: 769px) {
+  .navbar-brand {
+    font-size: 1.5rem !important;
+  }
+  
+  .btn-lg {
+    padding: 1rem 2rem !important;
+    font-size: 1.125rem !important;
+  }
+  
+  .map-search {
+    width: 300px !important;
+  }
+  
+  .info-window {
+    max-width: 350px !important;
+  }
+}
+
+/* 大画面デスクトップ */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px !important;
+  }
+  
+  .map-search {
+    width: 350px !important;
+  }
+  
+  .info-window {
+    max-width: 400px !important;
+  }
+}
+
+/* 横画面モバイル */
+@media (max-width: 768px) and (orientation: landscape) {
+  .navbar {
+    padding: 0.25rem 0 !important;
+  }
+  
+  .navbar-brand {
+    font-size: 1rem !important;
+  }
+  
+  .container {
+    padding: 1rem !important;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+/* 高解像度ディスプレイ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .gradient-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .glass-effect {
+    backdrop-filter: blur(20px);
+  }
+}
+
+/* ダークモード対応（白基調を維持） */
+@media (prefers-color-scheme: dark) {
+  .gradient-bg {
+    background: #ffffff; /* 白背景を維持 */
+  }
+  
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(229, 229, 229, 0.5);
+  }
+  
+  .card {
+    background: #ffffff !important;
+    color: #262626 !important;
+  }
+  
+  .modal-content {
+    background: #ffffff !important;
+    color: #262626 !important;
+  }
+}
+
+/* アニメーション最適化 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* フォーカス可視性の向上 */
+@media (prefers-reduced-motion: no-preference) {
+  *:focus {
+    outline: 3px solid var(--color-primary) !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* 印刷用スタイル */
+@media print {
+  .navbar,
+  .btn,
+  .modal,
+  .map-search {
+    display: none !important;
+  }
+  
+  .container {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+}
+
+/* アクセシビリティ向上 */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor !important;
+  }
+  
+  .form-control {
+    border: 2px solid currentColor !important;
+  }
+  
+  .card {
+    border: 2px solid currentColor !important;
+  }
+}
+
+/* カスタムブレークポイント */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .row {
+    margin-left: -0.75rem !important;
+    margin-right: -0.75rem !important;
+  }
+  
+  .col,
+  [class*="col-"] {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}
+
+/* フルスクリーンモード対応 */
+@media (max-height: 600px) {
+  .navbar {
+    padding: 0.25rem 0 !important;
+  }
+  
+  .container {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1rem !important;
+  }
+}
